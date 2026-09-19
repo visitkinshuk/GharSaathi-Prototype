@@ -1,5 +1,7 @@
 GharSaathi
 
+Live Prototype: https://visitkinshuk.github.io/GharSaathi-Prototype/
+
 GharSaathi is a mobile-first prototype designed to make finding reliable domestic help easier and safer in Tier-2 Indian cities.
 
 The initial pilot concept focuses on Meerut and Chandigarh.
