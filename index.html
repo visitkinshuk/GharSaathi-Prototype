@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>GharSaathi Mobile Prototype V3</title>
+<style>
+:root{
+  --green:#1f6b57;
+  --green2:#eaf5f1;
+  --green3:#d8eee7;
+  --ink:#1d2522;
+  --muted:#6f7b76;
+  --line:#e2e7e4;
+  --bg:#f5f7f6;
+  --white:#fff;
+  --amber:#fff1c9;
+  --red:#fdecec;
+  --shadow:0 10px 28px rgba(20,45,37,.09);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#dde6e2;
+  color:var(--ink);
+}
+.prototype-wrap{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:18px;
+}
+.phone{
+  width:390px;
+  max-width:100%;
+  min-height:820px;
+  background:var(--bg);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 24px 70px rgba(0,0,0,.2);
+  position:relative;
+  border:7px solid #1a1d1c;
+}
+.status{
+  height:28px;background:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;font-size:11px;font-weight:800
+}
+.appbar{
+  background:#fff;border-bottom:1px solid var(--line);padding:10px 14px;
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10
+}
+.brand{display:flex;gap:9px;align-items:center;font-weight:850}
+.logo{
+  width:34px;height:34px;border-radius:11px;background:var(--green);color:#fff;
+  display:grid;place-items:center;font-weight:900
+}
+.mode{
+  border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 10px;font-weight:750
+}
+.screen{display:none;padding:14px 14px 92px}
+.screen.active{display:block}
+.hero{
+  background:linear-gradient(135deg,#1f6b57,#2d7b66);color:#fff;
+  border-radius:20px;padding:18px;box-shadow:var(--shadow)
+}
+.hero h1{font-size:24px;line-height:1.15;margin:0 0 8px}
+.hero p{font-size:13px;line-height:1.45;margin:0;opacity:.94}
+.section-title{font-size:17px;font-weight:850;margin:18px 2px 10px}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;
+  margin-bottom:12px;box-shadow:0 6px 18px rgba(0,0,0,.035)
+}
+.card h3{margin:0 0 5px;font-size:16px}
+.small{font-size:12px;color:var(--muted);line-height:1.4}
+.btn{
+  border:0;border-radius:13px;padding:12px 14px;background:var(--green);color:#fff;
+  font-weight:800;cursor:pointer;text-align:center
+}
+.btn.secondary{background:#edf1ef;color:var(--ink)}
+.btn.outline{background:#fff;color:var(--green);border:1px solid #a8c9bf}
+.btn.full{width:100%}
+.btn + .btn{margin-left:6px}
+.row{display:flex;gap:8px}
+.row>*{flex:1}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{
+  background:#edf1ef;border-radius:999px;padding:7px 9px;font-size:11px;font-weight:750
+}
+.chip.good{background:#e5f5ed;color:#1e674c}
+.chip.warn{background:var(--amber);color:#755900}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.service{
+  background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;min-height:82px;
+  cursor:pointer
+}
+.service.selected{border:2px solid var(--green);background:var(--green2)}
+.service b{display:block;margin-bottom:4px}
+label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}
+input,select,textarea{
+  width:100%;border:1px solid #dfe5e2;border-radius:12px;padding:11px;background:#fff;font:inherit
+}
+textarea{min-height:82px}
+.field{margin-bottom:11px}
+.notice{
+  border-radius:14px;padding:11px 12px;background:var(--amber);font-size:12px;line-height:1.45
+}
+.success{
+  border-radius:14px;padding:11px 12px;background:#e7f6ef;font-size:12px;line-height:1.45
+}
+.profile{
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:11px
+}
+.profile-top{display:flex;gap:11px}
+.avatar{
+  width:54px;height:54px;border-radius:16px;background:#edf0ef;display:grid;place-items:center;
+  font-weight:900;flex:0 0 auto
+}
+.profile h3{margin:0 0 4px}
+.rating{font-size:12px;margin-top:4px}
+.meta{font-size:12px;color:var(--muted);margin-top:3px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.badge{
+  background:#eef1ef;padding:5px 7px;border-radius:999px;font-size:10px;font-weight:800
+}
+.badge.good{background:#e5f5ed;color:#1e674c}
+.lock{
+  margin-top:10px;background:#f6f7f7;border:1px dashed #cfd7d3;border-radius:13px;padding:10px;
+  font-size:11px;color:#5f6a65
+}
+.bottom{
+  position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;padding:8px 6px 10px;z-index:15
+}
+.navbtn{
+  width:68px;border:0;background:transparent;color:#7d8782;font-size:10px;font-weight:800;cursor:pointer
+}
+.navbtn span{display:block;font-size:20px;margin-bottom:2px}
+.navbtn.active{color:var(--green)}
+.langbar{display:flex;gap:7px;margin-top:12px}
+.lang{
+  border:1px solid rgba(255,255,255,.45);color:#fff;background:transparent;border-radius:999px;
+  padding:7px 9px;font-size:11px;font-weight:800;cursor:pointer
+}
+.lang.active{background:#fff;color:var(--green)}
+.timeline{display:grid;gap:10px}
+.step{display:flex;gap:9px;align-items:flex-start}
+.dot{
+  width:26px;height:26px;border-radius:50%;background:var(--green2);color:var(--green);
+  display:grid;place-items:center;font-weight:900;flex:0 0 auto
+}
+.modal{
+  position:absolute;inset:0;background:rgba(15,22,20,.48);display:none;place-items:end center;z-index:30
+}
+.modal.show{display:grid}
+.sheet{
+  width:100%;background:#fff;border-radius:22px 22px 0 0;padding:18px;max-height:80%;overflow:auto
+}
+.sheet h2{margin:0 0 8px;font-size:20px}
+.price{
+  border:1px solid var(--line);border-radius:16px;padding:13px;margin:10px 0;background:#fbfcfb
+}
+.price .big{font-size:22px;font-weight:900}
+.price.selected{border:2px solid var(--green);background:var(--green2)}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{
+  background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px;text-align:center
+}
+.stat b{font-size:18px}
+.kicker{font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:900;color:var(--muted)}
+.hidden{display:none!important}
+.link{color:var(--green);font-weight:800;cursor:pointer}
+@media(max-width:430px){
+  .prototype-wrap{padding:0;background:#fff}
+  .phone{width:100%;min-height:100vh;border:0;border-radius:0;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="prototype-wrap">
+  <div class="phone">
+    <div class="status"><span>9:41</span><span>● ● ●</span></div>
+
+    <div class="appbar">
+      <div class="brand"><div class="logo">G</div><div>GharSaathi</div></div>
+      <select id="roleSelect" class="mode" onchange="changeRole(this.value)">
+        <option value="household">Household</option>
+        <option value="worker">Worker</option>
+        <option value="association">Association</option>
+      </select>
+    </div>
+
+    <!-- HOUSEHOLD -->
+    <section id="hh-home" class="screen active">
+      <div class="hero">
+        <div class="kicker" style="color:#d8eee7">Meerut & Chandigarh pilot</div>
+        <h1>Verified help for your home.</h1>
+        <p>Post your need, compare verified helpers, connect only after the worker accepts, and get 2 backup profile unlocks for 5 days.</p>
+      </div>
+
+      <div class="section-title">What do you need today?</div>
+      <div class="service-grid">
+        <div class="service" onclick="go('hh-post')"><b>🍳 Regular Help</b><span class="small">Cooking, cleaning, dishes</span></div>
+        <div class="service" onclick="go('hh-temp')"><b>⏱ 2–3 Day Help</b><span class="small">Temporary replacement</span></div>
+        <div class="service" onclick="go('hh-post')"><b>👶 Child Care</b><span class="small">Higher responsibility support</span></div>
+        <div class="service" onclick="go('hh-post')"><b>👴 Elder Care</b><span class="small">Companion & routine support</span></div>
+      </div>
+
+      <div class="section-title">Your active requirement</div>
+      <div class="card">
+        <h3>Morning cooking + cleaning</h3>
+        <div class="chips"><span class="chip">7–9 AM</span><span class="chip">Mon–Sat</span><span class="chip">Meerut</span></div>
+        <p class="small">6 verified workers are interested.</p>
+        <button class="btn full" onclick="go('hh-matches')">View interested helpers</button>
+      </div>
+
+      <div class="section-title">Trust at every step</div>
+      <div class="card">
+        <div class="timeline">
+          <div class="step"><div class="dot">✓</div><div><b>Household verification</b><div class="small">Phone OTP + government ID</div></div></div>
+          <div class="step"><div class="dot">✓</div><div><b>Worker verification</b><div class="small">Identity + address + police verification</div></div></div>
+          <div class="step"><div class="dot">✓</div><div><b>Private contact details</b><div class="small">Unlocked only after worker accepts and household pays</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hh-post" class="screen">
+      <div class="section-title">Post a requirement</div>
+      <div class="card">
+        <div class="kicker">Step 1 of 3</div>
+        <h3>Select work</h3>
+        <div class="service-grid" id="svcGrid">
+          <div class="service selected" onclick="toggleSvc(this)"><b>🍳 Cooking</b><span class="small">Breakfast / dinner</span></div>
+          <div class="service selected" onclick="toggleSvc(this)"><b>🧹 Cleaning</b><span class="small">Sweep & mop</span></div>
+          <div class="service" onclick="toggleSvc(this)"><b>🍽 Dishes</b><span class="small">Utensils & kitchen</span></div>
+          <div class="service" onclick="toggleSvc(this,true)"><b>👶 Child Care</b><span class="small">Extra compensation</span></div>
+          <div class="service" onclick="toggleSvc(this,true)"><b>👴 Elder Care</b><span class="small">Extra compensation</span></div>
+          <div class="service" onclick="toggleSvc(this)"><b>🪴 Plant Care</b><span class="small">Basic upkeep</span></div>
+        </div>
+        <div id="careNotice" class="notice hidden" style="margin-top:10px">
+          Child/Elder care usually requires additional compensation. Suggested premium: ₹1,500–₹4,000/month depending on time and responsibility. Final salary is negotiated directly.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="kicker">Step 2 of 3</div>
+        <div class="field"><label>City</label><select><option>Meerut</option><option>Chandigarh</option></select></div>
+        <div class="field"><label>Need type</label><select><option>Recurring monthly</option><option>Full-day</option><option>Temporary 2–3 days</option></select></div>
+        <div class="field"><label>Preferred time</label><input value="7:00 AM – 9:00 AM"></div>
+        <div class="field"><label>Days</label><select><option>Monday – Saturday</option><option>Daily</option><option>Weekdays only</option></select></div>
+        <div class="field"><label>Expected monthly pay</label><input value="₹6,000 – ₹8,000"></div>
+        <div class="field"><label>Describe the work simply</label><textarea>Breakfast preparation, kitchen cleanup, sweep and mop common areas.</textarea></div>
+      </div>
+
+      <div class="card">
+        <div class="kicker">Step 3 of 3</div>
+        <h3>Household verification</h3>
+        <p class="small">Workers also deserve a safe and verified home environment.</p>
+        <div class="chips"><span class="chip good">✓ Phone OTP verified</span><span class="chip good">✓ Government ID verified</span></div>
+        <button class="btn full" style="margin-top:11px" onclick="postJob()">Post requirement</button>
+      </div>
+    </section>
+
+    <section id="hh-matches" class="screen">
+      <div class="section-title">Interested helpers</div>
+      <p class="small">Contact details stay hidden until the worker accepts your connection request and you complete payment.</p>
+
+      <div class="profile">
+        <div class="profile-top">
+          <div class="avatar">SD</div>
+          <div>
+            <h3>Sunita D.</h3>
+            <div class="meta">Meerut • 6 years experience</div>
+            <div class="rating">⭐ 4.8 • 18 verified reviews</div>
+          </div>
+        </div>
+        <div class="badges"><span class="badge good">✓ Police verified</span><span class="badge good">✓ ID verified</span><span class="badge">Association-assisted</span></div>
+        <div class="meta">Cooking • Cleaning • Child care</div>
+        <div class="meta">Expected ₹6,500–₹8,000/month</div>
+        <div class="lock">🔒 Phone number and full address are hidden.</div>
+        <button class="btn full" style="margin-top:10px" onclick="connectRequest('Sunita D.')">I’m interested</button>
+      </div>
+
+      <div class="profile">
+        <div class="profile-top">
+          <div class="avatar">RK</div>
+          <div>
+            <h3>Rekha K.</h3>
+            <div class="meta">Meerut • 4 years experience</div>
+            <div class="rating">⭐ 4.5 • 11 verified reviews</div>
+          </div>
+        </div>
+        <div class="badges"><span class="badge good">✓ Police verified</span><span class="badge good">✓ ID verified</span><span class="badge">Independent</span></div>
+        <div class="meta">Cooking • Dishes • Elder support</div>
+        <div class="meta">Expected ₹6,000–₹7,500/month</div>
+        <div class="lock">🔒 Contact details are protected.</div>
+        <button class="btn full" style="margin-top:10px" onclick="connectRequest('Rekha K.')">I’m interested</button>
+      </div>
+    </section>
+
+    <section id="hh-temp" class="screen">
+      <div class="section-title">Temporary replacement</div>
+      <div class="card">
+        <h3>Need help only for 2–3 days?</h3>
+        <p class="small">We copy your regular helper's tasks, timings and area so you do not have to enter everything again.</p>
+        <div class="field"><label>Required for</label><select><option>2 days</option><option>3 days</option></select></div>
+        <div class="field"><label>Start date</label><input type="date"/></div>
+        <div class="field"><label>Tasks</label><input value="Cooking + cleaning"></div>
+        <div class="field"><label>Offer</label><input value="₹600/day"></div>
+        <button class="btn full" onclick="alert('Nearby verified workers with short-term availability have been notified.')">Find temporary help</button>
+      </div>
+
+      <div class="notice">
+        <b>Automatic absence support</b><br/>
+        If your regular helper marks an absence, GharSaathi can automatically ask if you want a short-term replacement.
+      </div>
+    </section>
+
+    <section id="hh-manage" class="screen">
+      <div class="section-title">My helpers</div>
+      <div class="profile">
+        <div class="profile-top">
+          <div class="avatar">SD</div>
+          <div>
+            <h3>Sunita D.</h3>
+            <div class="meta">Active since 12 Aug 2026</div>
+            <div class="rating">⭐ 4.8 • Verified engagement: 1 month</div>
+          </div>
+        </div>
+        <div class="badges"><span class="badge good">Relationship active</span></div>
+        <div class="notice" style="margin-top:10px"><b>Upcoming absence:</b> 22–24 Sep</div>
+        <button class="btn full" style="margin-top:9px" onclick="go('hh-temp')">Find temporary replacement</button>
+      </div>
+
+      <div class="card">
+        <h3>Review protection</h3>
+        <p class="small">Public reviews are allowed only while both sides confirm the work relationship is active. After the relationship ends, feedback becomes private to GharSaathi for safety and quality monitoring.</p>
+      </div>
+    </section>
+
+    <!-- WORKER -->
+    <section id="wk-home" class="screen">
+      <div class="hero">
+        <div class="kicker" style="color:#d8eee7">Worker mode</div>
+        <h1 id="workerHero">काम आपकी पसंद और समय के हिसाब से</h1>
+        <p id="workerSub">You choose which household jobs you are interested in. Your phone number stays private until you accept a connection request.</p>
+        <div class="langbar">
+          <button class="lang active" onclick="setLang('en',this)">English</button>
+          <button class="lang" onclick="setLang('hi',this)">हिन्दी</button>
+          <button class="lang" onclick="setLang('pa',this)">ਪੰਜਾਬੀ</button>
+        </div>
+      </div>
+
+      <div class="section-title">Jobs near you</div>
+      <div class="profile">
+        <div class="profile-top">
+          <div class="avatar">🏠</div>
+          <div>
+            <h3>Sector 22 household</h3>
+            <div class="meta">Approx. 1.8 km • Chandigarh</div>
+            <div class="meta">Cooking + dishes • 7–9 AM</div>
+          </div>
+        </div>
+        <div class="badges"><span class="badge good">✓ Household verified</span><span class="badge">Exact address hidden</span></div>
+        <div class="meta">₹6,000–₹7,500/month • 2 adults + 1 child</div>
+        <button class="btn full" style="margin-top:10px" onclick="alert('Interest sent to household.')">I’m interested</button>
+      </div>
+
+      <div class="profile">
+        <div class="profile-top">
+          <div class="avatar">🏠</div>
+          <div>
+            <h3>Shastri Nagar household</h3>
+            <div class="meta">Approx. 2.4 km • Meerut</div>
+            <div class="meta">Cleaning • 8–9 AM</div>
+          </div>
+        </div>
+        <div class="badges"><span class="badge good">✓ Household verified</span></div>
+        <div class="meta">₹3,000–₹4,000/month</div>
+        <button class="btn full" style="margin-top:10px" onclick="alert('Interest sent to household.')">I’m interested</button>
+      </div>
+    </section>
+
+    <section id="wk-requests" class="screen">
+      <div class="section-title">Connection requests</div>
+      <div class="card">
+        <h3>Household wants to connect</h3>
+        <p class="small">Cooking + cleaning • Meerut • 7–9 AM • ₹6,000–₹8,000</p>
+        <div class="chips"><span class="chip good">✓ Household verified</span><span class="chip">Exact address hidden</span></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" onclick="alert('Accepted. Household will now be asked to choose a payment plan.')">Accept</button>
+          <button class="btn secondary" onclick="alert('Request declined.')">Decline</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="wk-verify" class="screen">
+      <div class="section-title">Verification</div>
+      <div class="card">
+        <div class="timeline">
+          <div class="step"><div class="dot">✓</div><div><b>Identity document</b><div class="small">Verified</div></div></div>
+          <div class="step"><div class="dot">✓</div><div><b>Address verification</b><div class="small">Verified</div></div></div>
+          <div class="step"><div class="dot">✓</div><div><b>Police verification</b><div class="small">Verified</div></div></div>
+          <div class="step"><div class="dot">✓</div><div><b>Association assisted</b><div class="small">Local partner desk</div></div></div>
+        </div>
+      </div>
+      <div class="success"><b>Profile is visible.</b> Only fully verified workers can receive household requirements.</div>
+    </section>
+
+    <section id="wk-absence" class="screen">
+      <div class="section-title">Mark absence</div>
+      <div class="card">
+        <div class="field"><label>From</label><input type="date"/></div>
+        <div class="field"><label>To</label><input type="date"/></div>
+        <div class="field"><label>Reason (optional)</label><select><option>Personal work</option><option>Health</option><option>Travel</option><option>Other</option></select></div>
+        <button class="btn full" onclick="markAbsence()">Notify my households</button>
+      </div>
+      <div class="notice">
+        Your households will receive a message asking whether they want a temporary replacement. GharSaathi will only alert workers with matching tasks, timing and location.
+      </div>
+    </section>
+
+    <!-- ASSOCIATION -->
+    <section id="as-home" class="screen">
+      <div class="hero">
+        <div class="kicker" style="color:#d8eee7">Association desk</div>
+        <h1>Help workers join without needing to use the app alone.</h1>
+        <p>Association representatives can onboard workers, upload documents, show job opportunities and assist with responses. Worker consent is still required before accepting a household connection.</p>
+      </div>
+
+      <div class="section-title">Today</div>
+      <div class="statrow">
+        <div class="stat"><b>46</b><div class="small">Managed workers</div></div>
+        <div class="stat"><b>11</b><div class="small">Matching jobs</div></div>
+        <div class="stat"><b>7</b><div class="small">Renewals</div></div>
+      </div>
+
+      <div class="section-title">Pending action</div>
+      <div class="card">
+        <h3>3 workers need connection approval</h3>
+        <p class="small">Call or show the request to the worker before responding.</p>
+        <button class="btn full" onclick="go('as-workers')">View workers</button>
+      </div>
+    </section>
+
+    <section id="as-workers" class="screen">
+      <div class="section-title">Managed workers</div>
+      <div class="profile">
+        <div class="profile-top">
+          <div class="avatar">SD</div>
+          <div><h3>Sunita D.</h3><div class="meta">Hindi • Meerut • 6 years</div></div>
+        </div>
+        <div class="badges"><span class="badge good">Fully verified</span><span class="badge">Association managed</span></div>
+        <button class="btn full" style="margin-top:10px" onclick="alert('Showing matching jobs for Sunita.')">Show matching jobs</button>
+      </div>
+      <div class="profile">
+        <div class="profile-top">
+          <div class="avatar">MG</div>
+          <div><h3>Manjit G.</h3><div class="meta">Punjabi • Chandigarh • 9 years</div></div>
+        </div>
+        <div class="badges"><span class="badge good">Fully verified</span><span class="badge">Association managed</span></div>
+        <button class="btn full" style="margin-top:10px" onclick="alert('Showing matching jobs for Manjit.')">Show matching jobs</button>
+      </div>
+    </section>
+
+    <section id="as-onboard" class="screen">
+      <div class="section-title">Onboard a worker</div>
+      <div class="card">
+        <div class="field"><label>Language for onboarding</label><select><option>हिन्दी</option><option>ਪੰਜਾਬੀ</option><option>English</option></select></div>
+        <div class="field"><label>Worker name</label><input placeholder="Enter full name"></div>
+        <div class="field"><label>Phone number</label><input placeholder="+91"></div>
+        <div class="field"><label>Services</label><input placeholder="Cooking, cleaning, elder care..."></div>
+        <div class="field"><label>Years of experience</label><input placeholder="e.g. 5 years"></div>
+        <button class="btn full" onclick="alert('Worker onboarding saved. Verification documents are required before the profile can go live.')">Save & continue verification</button>
+      </div>
+    </section>
+
+    <!-- MODALS -->
+    <div id="connectModal" class="modal">
+      <div class="sheet">
+        <div class="kicker">Connection request</div>
+        <h2 id="connName">Worker</h2>
+        <p class="small">Your interest is sent first. The worker must accept before payment is requested.</p>
+        <div class="timeline">
+          <div class="step"><div class="dot">1</div><div><b>You show interest</b><div class="small">Done</div></div></div>
+          <div class="step"><div class="dot">2</div><div><b>Worker accepts</b><div class="small">Simulate approval below</div></div></div>
+          <div class="step"><div class="dot">3</div><div><b>Choose payment plan</b><div class="small">Contact unlocks only after payment</div></div></div>
+        </div>
+        <button class="btn full" style="margin-top:12px" onclick="workerApproves()">Simulate worker acceptance</button>
+        <button class="btn secondary full" style="margin-top:8px" onclick="closeModal('connectModal')">Close</button>
+      </div>
+    </div>
+
+    <div id="paymentModal" class="modal">
+      <div class="sheet">
+        <div class="kicker">Worker accepted</div>
+        <h2>Choose how you want to unlock</h2>
+
+        <div class="price selected" onclick="selectPlan(this,'₹249 Connection Pack')">
+          <div class="big">₹249</div>
+          <b>Connection Pack</b>
+          <div class="small">Unlock this worker + 2 backup profile unlocks within 5 days.</div>
+        </div>
+
+        <div class="price" onclick="selectPlan(this,'₹499 GharSaathi Plus')">
+          <div class="big">₹499/month</div>
+          <b>GharSaathi Plus</b>
+          <div class="small">Up to 10 approved profile unlocks, priority matching and faster replacement support.</div>
+        </div>
+
+        <div class="notice">Prototype pricing only. Final pricing should be validated with users in Meerut and Chandigarh.</div>
+        <button class="btn full" style="margin-top:12px" onclick="completePayment()">Pay & unlock</button>
+        <button class="btn secondary full" style="margin-top:8px" onclick="closeModal('paymentModal')">Cancel</button>
+      </div>
+    </div>
+
+    <div id="unlockModal" class="modal">
+      <div class="sheet">
+        <div class="success"><b>Payment successful.</b> Both contact options are now unlocked.</div>
+        <h2 style="margin-top:12px">Sunita D.</h2>
+        <p><b>Phone:</b> +91 98XX-XXX-214</p>
+        <div class="row">
+          <button class="btn" onclick="alert('Opening phone dialer in the real application.')">📞 Direct call</button>
+          <button class="btn secondary" onclick="alert('Starting app-based masked call.')">☎ App call</button>
+        </div>
+        <div class="notice" style="margin-top:12px"><b>Trust protection:</b> If this match does not work out, 2 more profile unlocks remain available for 5 days at no extra cost.</div>
+        <button class="btn full" style="margin-top:12px" onclick="closeModal('unlockModal')">Done</button>
+      </div>
+    </div>
+
+    <div class="bottom" id="bottomNav">
+      <button class="navbtn active" data-role="household" onclick="nav('hh-home',this)"><span>🏠</span>Home</button>
+      <button class="navbtn" data-role="household" onclick="nav('hh-post',this)"><span>➕</span>Post</button>
+      <button class="navbtn" data-role="household" onclick="nav('hh-matches',this)"><span>👥</span>Matches</button>
+      <button class="navbtn" data-role="household" onclick="nav('hh-manage',this)"><span>✅</span>My Help</button>
+
+      <button class="navbtn hidden" data-role="worker" onclick="nav('wk-home',this)"><span>📋</span>Jobs</button>
+      <button class="navbtn hidden" data-role="worker" onclick="nav('wk-requests',this)"><span>🔔</span>Requests</button>
+      <button class="navbtn hidden" data-role="worker" onclick="nav('wk-verify',this)"><span>🛡️</span>Verify</button>
+      <button class="navbtn hidden" data-role="worker" onclick="nav('wk-absence',this)"><span>🗓️</span>Absence</button>
+
+      <button class="navbtn hidden" data-role="association" onclick="nav('as-home',this)"><span>📊</span>Desk</button>
+      <button class="navbtn hidden" data-role="association" onclick="nav('as-workers',this)"><span>👥</span>Workers</button>
+      <button class="navbtn hidden" data-role="association" onclick="nav('as-onboard',this)"><span>➕</span>Onboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentRole='household';
+let selectedPlan='₹249 Connection Pack';
+
+function hideAll(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+}
+function go(id){
+  hideAll();
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function nav(id,el){
+  go(id);
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+function changeRole(role){
+  currentRole=role;
+  document.querySelectorAll('.navbtn').forEach(b=>{
+    b.classList.toggle('hidden', b.dataset.role!==role);
+    b.classList.remove('active');
+  });
+  const first = document.querySelector('.navbtn[data-role="'+role+'"]');
+  if(first) first.classList.add('active');
+  if(role==='household') go('hh-home');
+  if(role==='worker') go('wk-home');
+  if(role==='association') go('as-home');
+}
+function toggleSvc(el,isCare=false){
+  el.classList.toggle('selected');
+  const selected=[...document.querySelectorAll('#svcGrid .service.selected')].map(x=>x.innerText.toLowerCase()).join(' ');
+  document.getElementById('careNotice').classList.toggle('hidden', !(selected.includes('child')||selected.includes('elder')));
+}
+function postJob(){
+  alert('Requirement posted. Matching verified workers in your selected city have been notified.');
+  go('hh-matches');
+}
+function connectRequest(name){
+  document.getElementById('connName').innerText=name;
+  document.getElementById('connectModal').classList.add('show');
+}
+function workerApproves(){
+  closeModal('connectModal');
+  document.getElementById('paymentModal').classList.add('show');
+}
+function selectPlan(el,plan){
+  document.querySelectorAll('.price').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPlan=plan;
+}
+function completePayment(){
+  closeModal('paymentModal');
+  document.getElementById('unlockModal').classList.add('show');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('show');
+}
+function markAbsence(){
+  alert('Households notified. Each will be asked if they want a temporary replacement for the same tasks and timings.');
+}
+function setLang(lang,el){
+  document.querySelectorAll('.lang').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  const hero=document.getElementById('workerHero');
+  const sub=document.getElementById('workerSub');
+  if(lang==='hi'){
+    hero.innerText='काम आपकी पसंद और समय के हिसाब से';
+    sub.innerText='आप तय करें कि कौन-सा काम लेना है। आपका मोबाइल नंबर तब तक छिपा रहेगा जब तक आप परिवार की रिक्वेस्ट स्वीकार नहीं करते।';
+  }else if(lang==='pa'){
+    hero.innerText='ਕੰਮ ਤੁਹਾਡੀ ਪਸੰਦ ਅਤੇ ਸਮੇਂ ਦੇ ਮੁਤਾਬਕ';
+    sub.innerText='ਤੁਸੀਂ ਫੈਸਲਾ ਕਰੋ ਕਿ ਕਿਹੜਾ ਘਰੇਲੂ ਕੰਮ ਲੈਣਾ ਹੈ। ਤੁਹਾਡਾ ਫੋਨ ਨੰਬਰ ਉਦੋਂ ਤੱਕ ਗੁਪਤ ਰਹੇਗਾ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਪਰਿਵਾਰ ਦੀ ਰਿਕਵੈਸਟ ਮਨਜ਼ੂਰ ਨਹੀਂ ਕਰਦੇ।';
+  }else{
+    hero.innerText='Work that fits your time and preference';
+    sub.innerText='You choose which household jobs you are interested in. Your phone number stays private until you accept a connection request.';
+  }
+}
+</script>
+</body>
+</html>
